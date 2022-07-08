@@ -32,6 +32,7 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity updateUser(@PathVariable(value="id") long id, @Validated @RequestBody User request) {
+        if (id != request.getId()) return ResponseEntity.badRequest().build();
         var user = userRepository.findById(id);
         if (!user.isPresent()) return ResponseEntity.notFound().build();
         userRepository.save(request);
